@@ -27,7 +27,7 @@ export async function createBook(req: Request, res: Response, next: NextFunction
         //create new book
         const newBook = await Books.create({
             title,
-            description,
+            description: description || "none",
             publisher,
             genre,
             pageCount,
@@ -46,7 +46,7 @@ export async function createBook(req: Request, res: Response, next: NextFunction
         await author.save()
 
         //respond with book details
-        return res.json({message: "created", data: newBook})
+        return res.redirect(`/users/d/books/${newBook._id.toString()}`)
     }
     catch(err){
         console.error(err)
@@ -67,12 +67,12 @@ export async function getBook(req: Request, res: Response, next: NextFunction){
         }
         //find author by id
         const author = await Author.findById(book.authorId.toString())
-        
+
         //set name dynamically
         let authorName = author? author.authorName : "Unknown"
 
         //respond with book data and the author's name
-        return res.json({data: book, author: authorName})
+        return res.render("bookDetail",{title: "Lib | Book",data: book, author: authorName})
     }
     catch(err){
         console.error(err)

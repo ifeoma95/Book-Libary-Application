@@ -9,7 +9,7 @@
 <body>
     <!-- nav header -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-        <a class="navbar-brand" href="#">Landing Page</a>
+        <a class="navbar-brand" href="/">Landing Page</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -23,15 +23,20 @@
                 </li>
                 <li class="nav-item dropdown px-2">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
+                        Books
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Option 1</a>
+                        <a class="dropdown-item" href="/users/d/books/create">Create</a>
                         <a class="dropdown-item" href="#">Option 2</a>
                     </div>
                 </li>
                 <li class="nav-item px-2">
                     <a class="nav-link" href="#">Contact</a>
+                </li>
+                <li class="nav-item px-2">
+                    <form action="/" method="post">
+                        <button type="submit" class="btn btn-danger">Logout</button>
+                    </form>
                 </li>
             </ul>
         </div>
@@ -42,22 +47,26 @@
     <!-- page content -->
 
     <div class="container mt-5">
-        <div class="row">
+
+        <div class="row justify-content-center">
             <div class="col-md-8">
-                <img src="https://images.pexels.com/photos/1290141/pexels-photo-1290141.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Image" class="img-fluid">
-            </div>
-            <div class="col-md-4">
-                <h1>Welcome to Our Website</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed lectus sit amet velit commodo mollis.</p>
-                <a href="/signup" class="btn btn-primary">Sign Up</a>
-                <a href="/login" class="btn btn-secondary">Login</a>
+                <h2>Book Details</h2>
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>ID:</strong> <%=data._id%></li>
+                    <li class="list-group-item"><strong>Title:</strong> <%=data.title%></li>
+                    <li class="list-group-item"><strong>Description:</strong> <%=data.description%></li>
+                    <li class="list-group-item"><strong>Page Count:</strong> <%=data.pageCount%></li>
+                    <li class="list-group-item"><strong>Genre:</strong> <%= data.genre %></li>
+                    <li class="list-group-item"><strong>Publisher:</strong> <%= data.publisher%></li>
+                    <li class="list-group-item"><strong>Author:</strong> <%=author %></li>
+                </ul>
             </div>
         </div>
+    </div>
 
+    <!-- end of page content  -->
         <div class="space" style="height: 60px;"></div>
-
         <!-- footer  -->
-        
         <footer class="text-center fixed-bottom bg-light">
             <hr>
             <p>&copy; 2023 Your Company. All rights reserved.</p>

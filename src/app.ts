@@ -49,6 +49,7 @@ app.use(function(err: createError.HttpError, req: Request, res: Response, next: 
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+  
 });
 
 export default app;

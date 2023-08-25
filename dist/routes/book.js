@@ -7,5 +7,8 @@ const express_1 = __importDefault(require("express"));
 const book_1 = require("../controllers/book");
 const router = express_1.default.Router();
 router.post("/create", book_1.createBook);
+router.get("/create", function (req, res, next) {
+    res.render("createBook", { title: "Lib | Add Book" });
+});
 router.get("/:id", book_1.getBook);
 exports.default = router;

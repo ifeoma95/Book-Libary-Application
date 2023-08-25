@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteAuthor = exports.updateAuthor = exports.getAuthor = exports.createAuthor = void 0;
+exports.deleteAuthor = exports.updateAuthor = exports.getAuthor = exports.loginSuccess = exports.createAuthor = void 0;
 const author_1 = require("../model/author");
 const utils_1 = require("../utils");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
@@ -48,6 +48,10 @@ function createAuthor(req, res, next) {
     });
 }
 exports.createAuthor = createAuthor;
+function loginSuccess(req, res, next) {
+    res.redirect("/users/d/dashboard");
+}
+exports.loginSuccess = loginSuccess;
 function getAuthor(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         //get id from request
@@ -64,7 +68,7 @@ function getAuthor(req, res, next) {
                 return res.status(403).json({ error: "Please login" });
             }
             //welcome author with name
-            res.json({ message: `Welcome ${author.authorName}` });
+            res.render("dashboard", { title: "Lib | Dashboard", name: author.authorName });
         }
         catch (err) {
             console.error(err);

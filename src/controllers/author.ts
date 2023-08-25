@@ -39,6 +39,10 @@ export async function createAuthor(req: Request, res: Response, next: NextFuncti
     }
 }
 
+export function loginSuccess(req: Request, res: Response, next: NextFunction){
+    res.redirect("/users/d/dashboard")
+}
+
 export async function getAuthor(req: Request, res: Response, next: NextFunction){
     //get id from request
     const _id = getId(req)
@@ -57,7 +61,7 @@ export async function getAuthor(req: Request, res: Response, next: NextFunction)
         }
 
         //welcome author with name
-        res.json({message: `Welcome ${author.authorName}`})
+        res.render("dashboard", {title: "Lib | Dashboard", name: author.authorName})
 
     }
     catch(err){
