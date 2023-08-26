@@ -26,7 +26,7 @@
                         Books
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Create</a>
+                        <a class="dropdown-item" href="/users/d/books/create">Create</a>
                         <a class="dropdown-item" href="/users/d/books/all">All Books</a>
                     </div>
                 </li>
@@ -46,49 +46,33 @@
 
     <!-- page content -->
 
-    <div class="row justify-content-center mt-4">
-        <div class="col-md-6">
-            <h2>Create Book</h2>
-            <p>Fill in the form to register. All fields required</p>
-            <form method="post">
-                <div class="form-group">
-                    <label for="title">Title</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter book title" required>
-                </div>
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea name="description" id="description" cols="30" rows="3" class="form-control"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="publisher">Publisher</label>
-                    <input type="text" class="form-control" id="publisher" name="publisher" placeholder="Enter publisher" required>
-                </div>
-                <div class="form-group">
-                    <label for="pageCount">Page Count</label>
-                    <input type="number" class="form-control" id="pageCount" name="pageCount" placeholder="1" required>
-                </div>
-                <div class="form-group">
-                    <label for="genre">Genre</label>
-                    <input type="text" class="form-control" id="genre" name="genre" placeholder="Enter book genre" required>
-                </div>
-                <div class="form-group">
-                    <label for="datePublished">Date Published</label>
-                    <input type="date" class="form-control" id="datePublished" name="datePublished" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Add Book</button>
-            </form>
+    <div class="container mt-5">
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h2>Book Details</h2>
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>ID:</strong> <%=data._id%></li>
+                    <li class="list-group-item"><strong>Title:</strong> <%=data.title%></li>
+                    <li class="list-group-item"><strong>Description:</strong> <%=data.description%></li>
+                    <li class="list-group-item"><strong>Page Count:</strong> <%=data.pageCount%></li>
+                    <li class="list-group-item"><strong>Genre:</strong> <%= data.genre %></li>
+                    <li class="list-group-item"><strong>Publisher:</strong> <%= data.publisher%></li>
+                    <li class="list-group-item"><strong>Author:</strong> <%=author %></li>
+                </ul>
+            </div>
+            <div class="d-flex flex-column flex-lg-row col-md-8 text-center">
+                <a href="/users/d/books/<%=data._id%>/update" class="btn btn-primary mx-3 my-2">Update</a>
+                <form method="post" class="mx-3 my-2" action="/users/d/books/<%=data._id%>/delete">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
         </div>
     </div>
 
-
-    
-
     <!-- end of page content  -->
-
-        <div class="space" style="height: 80px;"></div>
-
+        <div class="space" style="height: 60px;"></div>
         <!-- footer  -->
-        
         <footer class="text-center fixed-bottom bg-light">
             <hr>
             <p>&copy; 2023 Your Company. All rights reserved.</p>

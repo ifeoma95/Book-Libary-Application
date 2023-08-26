@@ -54,3 +54,8 @@ export function getId(req: Request){
     const {authorId} = decrypt
     return authorId
 }
+
+export function ownsBook(req:Request, id: String){
+    const authorId = getId(req)
+    return authorId? authorId == id: false
+}

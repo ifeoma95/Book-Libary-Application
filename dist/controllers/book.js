@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBook = exports.createBook = void 0;
+exports.deleteBook = exports.updatePage = exports.updateBook = exports.getAll = exports.getBook = exports.createBook = void 0;
 const author_1 = require("../model/author");
 const utils_1 = require("../utils");
 const book_1 = require("../model/book");
@@ -62,6 +62,10 @@ function getBook(req, res, next) {
         //get book id from req parameters
         const id = req.params.id;
         try {
+            if (id === "all") {
+                yield getAll(req, res, next);
+                return;
+            }
             //find book by id
             const book = yield book_1.Books.findById(id);
             ///reject if book not found
@@ -72,7 +76,12 @@ function getBook(req, res, next) {
             const author = yield author_1.Author.findById(book.authorId.toString());
             //set name dynamically
             let authorName = author ? author.authorName : "Unknown";
-            //respond with book data and the author's name
+            const owner = (0, utils_1.ownsBook)(req, book.authorId.toString());
+            if (owner) {
+                //respond with book data and the author's name with owner options 
+                return res.render("myBook", { title: "Lib | Book", data: book, author: authorName });
+            }
+            //respond with book data and the author's name without options
             return res.render("bookDetail", { title: "Lib | Book", data: book, author: authorName });
         }
         catch (err) {
@@ -82,3 +91,120 @@ function getBook(req, res, next) {
     });
 }
 exports.getBook = getBook;
+function getAll(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const books = yield book_1.Books.find();
+            if (!books.length) {
+                res.render("bookList", {
+                    title: "Lib | Books",
+                    data: [{ title: "No books found" }]
+                });
+                return;
+            }
+            res.render("bookList", {
+                title: "Lib | Books",
+                data: books
+            });
+        }
+        catch (err) {
+            res.json({
+                message: "Server error",
+                error: err
+            });
+        }
+    });
+}
+exports.getAll = getAll;
+function updateBook(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const id = req.params.id;
+        const newData = req.body;
+        try {
+            const book = yield book_1.Books.findById(id);
+            if (!book) {
+                return res.status(404).json({
+                    error: "Book not found"
+                });
+            }
+            const owner = (0, utils_1.ownsBook)(req, book.authorId.toString());
+            if (!owner) {
+                return res.status(403).json({
+                    error: "Reserved for book's author"
+                });
+            }
+            for (const field in newData) {
+                if (!newData[field]) {
+                    delete newData[field];
+                }
+            }
+            Object.assign(book, newData);
+            yield book.save();
+            res.redirect(`/users/d/books/${book._id.toString()}`);
+        }
+        catch (err) {
+            res.status(500).json({
+                message: "server error",
+                error: err
+            });
+        }
+    });
+}
+exports.updateBook = updateBook;
+function updatePage(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const id = req.params.id;
+        try {
+            const book = yield book_1.Books.findById(id);
+            if (!book) {
+                return res.status(404).json({
+                    error: "Book not found"
+                });
+            }
+            const owner = (0, utils_1.ownsBook)(req, book.authorId.toString());
+            if (!owner) {
+                return res.status(403).json({
+                    error: "Reserved for book's author"
+                });
+            }
+            res.render("updateBook", {
+                title: "Lib | Update",
+            });
+        }
+        catch (err) {
+            res.status(500).json({
+                message: "server error",
+                error: err
+            });
+        }
+    });
+}
+exports.updatePage = updatePage;
+function deleteBook(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const id = req.params.id;
+        try {
+            const book = yield book_1.Books.findById(id);
+            if (!book) {
+                return res.status(404).json({
+                    error: "Book not found"
+                });
+            }
+            const owner = (0, utils_1.ownsBook)(req, book.authorId.toString());
+            if (!owner) {
+                return res.status(403).json({
+                    error: "Reserved for book's author"
+                });
+            }
+            yield book.deleteOne({ _id: id });
+            res.redirect("/users/d/dashboard");
+        }
+        catch (err) {
+            res.status(500).json({
+                message: "server error",
+                error: err
+            });
+        }
+    });
+}
+exports.deleteBook = deleteBook;

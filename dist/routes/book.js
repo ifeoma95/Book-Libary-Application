@@ -11,4 +11,7 @@ router.get("/create", function (req, res, next) {
     res.render("createBook", { title: "Lib | Add Book" });
 });
 router.get("/:id", book_1.getBook);
+router.get("/:id/update", book_1.updatePage);
+router.post("/:id/update", book_1.updateBook);
+router.post("/:id/delete", book_1.deleteBook);
 exports.default = router;
