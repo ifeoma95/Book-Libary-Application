@@ -5,7 +5,11 @@ import mongoose from 'mongoose'
 import path from 'path'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
+
+
 config();
+
+
 
 mongoose.connect(process.env.MONGO_URI!, { useNewUrlParser: true })
 .then(()=>{
@@ -15,9 +19,13 @@ mongoose.connect(process.env.MONGO_URI!, { useNewUrlParser: true })
   console.error(err)
 })
 
+
+
 import indexRouter from './routes/index'
 import usersRouter from './routes/author'
 import bookRouter from './routes/book'
+import { ApolloServer } from '@apollo/server';
+import { startStandaloneServer } from '@apollo/server/dist/esm/standalone';
 
 const app = express();
 
